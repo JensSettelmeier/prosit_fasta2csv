@@ -35,9 +35,10 @@ def prosit_fasta2csv(fasta_file, collison_engery, charge_states):
     """
     peptide_df = TDWrapper(fasta_file)
     peptide_df.rename(columns={"peptides":"modified_sequence"},inplace=True)
-    peptide_df['collision_engery'] = collison_engery
+    peptide_df['collision_energy'] = collison_engery
     random_charge_states = np.random.choice(charge_states,peptide_df.shape[0]) # note higher charge states are more unlikely - adjust prior probs. It can make sense to consider the same sequence with several charge states \ToDo
     peptide_df['precursor_charge'] = random_charge_states  
+    peptide_df.set_index('modified_sequence', inplace=True)
     peptide_df.to_csv('peptides.csv')
     return peptide_df
 
